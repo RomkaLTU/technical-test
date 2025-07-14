@@ -6,11 +6,9 @@ import { NestFactory } from '@nestjs/core';
 import { Logger, LoggerModule, Params, PinoLogger } from 'nestjs-pino';
 
 import { AppOptions, CONFIG } from './config';
-import { PlayerServiceImpl } from './domain/services/manager';
-import { factory } from './framework/provider';
+import { GraphQLAppModule } from './entrypoints/graphql/graphql.module';
 import { HealthCheckModule } from './infrastructure/health-check/module';
 import { PlayerEntity } from './infrastructure/persistence/entities/player';
-import { PlayerRepositoryImpl } from './infrastructure/persistence/repositories/player';
 
 @Module({
   imports: [
@@ -19,9 +17,10 @@ import { PlayerRepositoryImpl } from './infrastructure/persistence/repositories/
     MikroOrmModule.forFeature({ entities: [PlayerEntity], contextName: 'MAIN' }),
     MikroOrmModule.forMiddleware(),
     LoggerModule.forRoot(CONFIG.LOGGER() as Params),
+    GraphQLAppModule,
     HealthCheckModule,
   ],
-  providers: [factory(PlayerServiceImpl, [PlayerRepositoryImpl])],
+  providers: [],
   controllers: [],
 })
 export class MainModule {
@@ -31,18 +30,22 @@ export class MainModule {
 
     try {
       const app = await NestFactory.create(MainModule, {
-        // Maybe something goes here
+        bufferLogs: true,
       });
 
       app.enableCors({ origin: options.allowedOrigins || false });
-      // graphql does not register route name globally so middleware never gets applied if it's not excluded
-      app.setGlobalPrefix(options.prefix, { exclude: ['graphql'] });
+      app.setGlobalPrefix(options.prefix, { exclude: ['graphql', 'graphiql'] });
       app.useLogger(logger);
       app.flushLogs();
 
       app.enableShutdownHooks();
 
       await app.listen(options.port, options.host);
+
+      logger.log('🚀 Application started successfully');
+      logger.log(`📊 GraphQL API: http://${options.host}:${options.port}/graphql`);
+      logger.log(`🎮 GraphiQL Playground: http://${options.host}:${options.port}/graphiql`);
+      logger.log(`❤️ Health Check: http://${options.host}:${options.port}/${options.prefix}/_health`);
     } catch (error) {
       logger.error(`${MainModule.name}: failed`);
       logger.error(error);
