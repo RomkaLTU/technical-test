@@ -50,9 +50,7 @@ export const CONFIG = {
 
   LOGGER: registerAs<Params>(CONSTANTS.LOGGER, (): Params => {
     return {
-      exclude: [
-        // Maybe there is something to exclude?
-      ],
+      exclude: [],
       pinoHttp: {
         wrapSerializers: true,
         serializers: {

@@ -1,7 +1,16 @@
-version: '3.9'
-
 services:
-  # :O where did it go
+  app:
+    build: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    environment:
+      - DB_CLIENT_URL=postgresql://admin:admin@postgres:5432/mvp
+      - PORT=3000
+      - APP_ENV=development
+      - APP_NAME=technical-test
+      - APP_PREFIX=api
 
   postgres:
     image: postgres:12.5

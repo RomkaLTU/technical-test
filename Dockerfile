@@ -23,3 +23,6 @@ COPY --from=builder /usr/src/app/node_modules ./node_modules
 COPY --from=builder /usr/src/app/dist ./dist
 ENV APP_VERSION=${APP_VERSION}
 
+# Start the application
+CMD ["node", "dist/main.js"]
+

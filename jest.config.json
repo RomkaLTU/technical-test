@@ -1,7 +1,7 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
-  "modulePaths": ["src/utils"],
-  "testRegex": ".*\\.spec\\.ts$",
+  "modulePaths": ["<rootDir>/src"],
+  "testMatch": ["<rootDir>/test/**/*.spec.ts"],
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
@@ -9,15 +9,12 @@
     "src/**/*.ts",
     "!src/*.ts",
     "!src/**/*.d.ts",
-    "!src/infrastructure/persistence/migration/*.ts",
-    "!src/infrastructure/persistence/entities/*.ts"
+    "!src/infrastructure/persistence/migrations/*.ts",
+    "!src/infrastructure/persistence/entities/*.ts",
+    "!src/**/*.spec.ts"
   ],
-  "testPathIgnorePatterns": [
-    "<rootDir>/dist/",
-    "<rootDir>/node_modules/",
-    "<rootDir>/src/infrastructure/persistence/migration/",
-    "<rootDir>/src/infrastructure/persistence/entities/"
-  ],
+  "testPathIgnorePatterns": ["<rootDir>/dist/", "<rootDir>/node_modules/"],
   "coverageDirectory": "coverage",
-  "testEnvironment": "node"
+  "testEnvironment": "node",
+  "roots": ["<rootDir>/src", "<rootDir>/test"]
 }
