@@ -1,5 +1,6 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+
 import { PlayerNotFoundError } from '../../../../domain/exceptions/player-not-found-error';
 import { PlayerServiceImpl } from '../../../../domain/services/manager';
 import { CreatePlayerInput, UpdatePlayerInput } from './player.inputs';

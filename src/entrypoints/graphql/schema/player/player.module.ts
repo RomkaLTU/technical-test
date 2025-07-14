@@ -1,5 +1,6 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
+
 import { PlayerServiceImpl } from '../../../../domain/services/manager';
 import { factory } from '../../../../framework/provider';
 import { PlayerEntity } from '../../../../infrastructure/persistence/entities/player';

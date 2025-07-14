@@ -21,6 +21,7 @@ describe('PlayerResolver', () => {
       getPlayer: jest.fn(),
       createPlayer: jest.fn(),
       deletePlayer: jest.fn(),
+      playerRepository: {} as any,
     } as any;
 
     const module: TestingModule = await Test.createTestingModule({
@@ -35,7 +36,10 @@ describe('PlayerResolver', () => {
 
     resolver = module.get<PlayerResolver>(PlayerResolver);
 
-    (resolver as any).logger = mockLogger;
+    Object.defineProperty(resolver, 'logger', {
+      value: mockLogger,
+      writable: true,
+    });
 
     jest.clearAllMocks();
   });

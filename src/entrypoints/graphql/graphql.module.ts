@@ -16,7 +16,6 @@ import { PlayerModule } from './schema/player/player.module';
       path: '/graphql',
       context: ({ req, res }: { req: any; res: any }) => ({ req, res }),
       formatError: (error) => {
-        console.error('GraphQL Error:', error);
         return {
           message: error.message,
           code: error.extensions?.code,

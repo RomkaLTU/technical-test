@@ -1,10 +1,9 @@
 import { Controller, Get, Res } from '@nestjs/common';
-import { Response } from 'express';
 
 @Controller('graphiql')
 export class GraphiQLController {
   @Get()
-  serveGraphiQL(@Res() res: Response): void {
+  serveGraphiQL(@Res() res: any): void {
     const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
